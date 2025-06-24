@@ -36,3 +36,6 @@ credentials.yml
 profiles.yml # Usado para perfis locais do dbt
 secrets.toml
 .streamlit/secrets.toml
+
+# Ignorar arquivos de dados brutos
+/data/*.csv
