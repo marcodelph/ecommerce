@@ -1,40 +1,34 @@
-# Projeto: Pipelines para Análise de Dados de Vendas de E-commerce
+# Projeto de Engenharia de Dados com Snowflake, dbt e Airflow
 
-## Problema de Negócio
+## 1. Visão Geral do Projeto
 
-Pequenos e médios e-commerces frequentemente operam com dados de vendas fragmentados, o que dificulta a obtenção de insights sobre performance de produtos, comportamento do cliente e tendências do mercado. Isso gera um impacto diretamente na tomada de decisões estratégias em marketing, estoque e promoções.
+Este projeto tem como objetivo construir um pipeline de dados ponta-a-ponta (*end-to-end*), desde a ingestão de dados brutos até a criação de um dashboard analítico. O fluxo simula um ambiente corporativo moderno, utilizando o dataset público de E-commerce da Olist como fonte de dados inicial.
 
-## Solução Proposta
+O propósito é aplicar e documentar as melhores práticas de engenharia de dados, incluindo a modelagem de dados com a **Arquitetura Medallion** e a criação de um **Data Warehouse** com tabelas fato e dimensão, prontas para o consumo por ferramentas de Business Intelligence.
 
-Esse projeto visa implementar um pipeline de dados, utilizando:
+---
 
-* **Docker:** Para conteinerizar e isolar o ambiente de desenvolvimento e produção.
-* **Apache Airflow:** Para orquestrar a extração, carregamento e transformação dos dados.
-* **PostgreSQL:** Como banco de dados relacional para armazenar os dados brutos e transformados.
-* **dbt:** Para transformar e modelar os dados em um esquema dimensional (Fato e Dimensão), aplicando boas práticas de Engenharia de Dados (testes, documentação, reusabilidade).
+## 2. Arquitetura e Tecnologias
 
-A arquitetura seguirá os princípios da Medallion Architecture (Bronze, Silver, Gold), garantindo qualidade e organização dos dados em cada estágio.
+A escolha das ferramentas foi baseada em uma stack de dados moderna, escalável e amplamente utilizada no mercado.
 
-## Tecnologias
+| Tecnologia | Função | Justificativa da Escolha |
+| :--- | :--- | :--- |
+| **Snowflake** | Data Cloud Platform (DWH) | Plataforma de dados em nuvem poderosa, com separação real entre armazenamento e processamento, performance excelente e um generoso *free trial* que permite o desenvolvimento completo do projeto. |
+| **dbt (Data Build Tool)** | Transformação de Dados (o "T" do ELT) | Ferramenta que permite construir pipelines de transformação de dados confiáveis usando apenas SQL. Facilita testes, documentação e versionamento do código de transformação, sendo o padrão de mercado hoje. |
+| **Arquitetura Medallion** | Metodologia de Modelagem | Abordagem que organiza os dados em camadas (Bronze, Silver e Gold), garantindo a rastreabilidade, qualidade e governança dos dados à medida que são refinados. |
+| **Airflow** | Orquestração de Pipeline | Padrão open-source para orquestração de workflows. Permite definir pipelines como código (Python), agendar execuções e gerenciar dependências complexas entre tarefas. |
+| **Azure Blob Storage**| Camada de Staging (Landing Zone) | Serviço de armazenamento de objetos de baixo custo, ideal para ser a "zona de pouso" dos dados brutos (camada Bronze) extraídos de APIs na Fase 2 do projeto. |
+| **Power BI / Streamlit** | Visualização de Dados | Ferramentas para a criação de dashboards. O Power BI Desktop é gratuito e robusto. O Streamlit permite criar dashboards web com Python de forma rápida e elegante. |
 
-* **Orquestração:** Apache Airflow
-* **Transformação de Dados:** dbt (data build tool)
-* **Banco de Dados:** PostgreSQL
-* **Conteinerização:** Docker / Docker Compose
-* **Linguagem de Programação:** Python
-* **Controle de Versão:** Git / GitHub
+---
 
-## Instalação
+## 3. Estrutura do Projeto
 
-## Insights e Análises Geradas
+O repositório está organizado da seguinte forma:
 
-## Testes de Qualidade de Dados
-
-## Próximos passos
-1.  Definir o dataset de entrada (CSV - Kaggle ?)
-2.  Configurar o ambiente Docker com PostgreSQL, Airflow e dbt.
-3.  Implementar a ingestão inicial de dados (Bronze Layer).
-4.  Desenvolver os modelos dbt (Silver e Gold Layers).
-5.  Configurar as DAGs do Airflow para orquestrar o pipeline.
-6.  Implementar testes e validações.
-7.  Aprimorar a documentação e o README.
+- `data/`: Contém os datasets brutos (arquivos `.csv`) utilizados na fase inicial do projeto.
+- `dbt_project/`: Contém todo o código do projeto dbt, incluindo modelos, testes e documentação.
+- `notebooks/`: Espaço para Jupyter Notebooks utilizados para análise exploratória e experimentação.
+- `.gitignore`: Especifica os arquivos e pastas que devem ser ignorados pelo Git.
+- `README.md`: A documentação principal do projeto (este arquivo).
