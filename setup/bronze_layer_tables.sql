@@ -89,3 +89,11 @@ CREATE OR REPLACE TABLE product_category_name_translation (
     product_category_name VARCHAR,
     product_category_name_english VARCHAR
 );
+
+CREATE OR REPLACE FILE FORMAT my_csv_format
+    TYPE = 'CSV'
+    FIELD_DELIMITER = ','
+    SKIP_HEADER = 1;
+
+CREATE OR REPLACE STAGE olist_stage
+FILE_FORMAT = my_csv_format;
