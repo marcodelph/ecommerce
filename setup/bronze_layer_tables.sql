@@ -93,7 +93,50 @@ CREATE OR REPLACE TABLE product_category_name_translation (
 CREATE OR REPLACE FILE FORMAT my_csv_format
     TYPE = 'CSV'
     FIELD_DELIMITER = ','
-    SKIP_HEADER = 1;
+    SKIP_HEADER = 1
+    NULL_IF = ('')
+    FIELD_OPTIONALLY_ENCLOSED_BY = '"';
 
 CREATE OR REPLACE STAGE olist_stage
 FILE_FORMAT = my_csv_format;
+
+LIST @olist_stage;
+
+-- Comando para cada tabela, copiando do arquivo correspondente no stage
+
+
+COPY INTO olist_customers_dataset
+FROM @olist_stage/olist_customers_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_geolocation_dataset
+FROM @olist_stage/olist_geolocation_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_order_items_dataset
+FROM @olist_stage/olist_order_items_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_order_payments_dataset
+FROM @olist_stage/olist_order_payments_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_order_reviews_dataset
+FROM @olist_stage/olist_order_reviews_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_orders_dataset
+FROM @olist_stage/olist_orders_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_products_dataset
+FROM @olist_stage/olist_products_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO olist_sellers_dataset
+FROM @olist_stage/olist_sellers_dataset.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');
+
+COPY INTO product_category_name_translation
+FROM @olist_stage/product_category_name_translation.csv
+FILE_FORMAT = (FORMAT_NAME = 'my_csv_format');  
