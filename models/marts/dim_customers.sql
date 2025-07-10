@@ -1,5 +1,3 @@
--- dim_customers.sql (Sua versão)
--- dim_customers.sql (Versão Corrigida)
 with customer_orders as (
     select
         c.customer_unique_id,
@@ -25,4 +23,4 @@ select
     sum(ov.total_order_value) as total_value_spent
 from customer_orders as co
 left join order_values as ov on co.order_id = ov.order_id
-group by 1;
+group by 1
