@@ -1,0 +1,1 @@
+select * from {{ source('olist_ecommerce', 'olist_products_dataset') }}

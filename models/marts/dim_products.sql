@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized='table'
+    )
+}}
+
 select
     p.product_id,
     p.product_category_name,

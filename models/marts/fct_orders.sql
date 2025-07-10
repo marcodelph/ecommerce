@@ -1,4 +1,10 @@
--- fct_orders.sql
+{{
+    config(
+        materialized='table'
+    )
+}}
+
+
 with order_items as (
     select
         order_id,

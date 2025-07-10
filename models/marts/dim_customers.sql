@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='table'
+    )
+}}
+
+
 with customer_orders as (
     select
         c.customer_unique_id,
