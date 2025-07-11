@@ -2,26 +2,85 @@ version: 2
 
 models:
   - name: fct_orders
-    description: "Tabela fato com todos os pedidos da Olist. Uma linha por pedido."
+    description: "Tabela fato principal, com uma linha por pedido. Contém todas as métricas de valor do pedido e as chaves para as dimensões."
     columns:
       - name: order_id
-        description: "A chave primária da tabela."
+        description: "A chave primária da tabela. Identificador único de um pedido."
         tests:
           - unique
           - not_null
 
-      - name: customer_unique_id # MUDAMOS O TESTE PARA ESTA COLUNA
-        description: "A chave estrangeira para a dimensão de clientes."
+      - name: customer_unique_id
+        description: "A chave estrangeira para a dimensão de clientes (dim_customers)."
         tests:
           - relationships:
               to: ref('dim_customers')
-              field: customer_unique_id # AGORA SIM: testando unique_id com unique_id
+              field: customer_unique_id
+
+      - name: order_status
+        description: "O status do pedido (ex: delivered, shipped, canceled). Tratado como uma dimensão degenerada."
+
+      - name: total_order_value
+        description: "O valor total do pedido, incluindo o preço dos itens e o valor do frete."
 
   - name: dim_customers
-    description: "Tabela de dimensão de clientes, com uma linha por cliente único."
+    description: "Tabela de dimensão de clientes. Uma linha por cliente único. Contém métricas de comportamento de compra para facilitar a segmentação (RFM - Recency, Frequency, Monetary)."
     columns:
       - name: customer_unique_id
-        description: "A chave primária da tabela."
+        description: "A chave primária da tabela. Identificador único de um cliente."
+        tests:
+          - unique
+          - not_null
+
+      - name: first_order_date
+        description: "A data do primeiro pedido feito pelo cliente (Recency)."
+
+      - name: most_recent_order_date
+        description: "A data do pedido mais recente feito pelo cliente (Recency)."
+
+      - name: number_of_orders
+        description: "O número total de pedidos que o cliente já fez (Frequency)."
+
+      - name: total_value_spent
+        description: "A soma total de todos os valores de pedido gastos pelo cliente (Monetary)."
+
+  - name: dim_products
+    description: "Tabela de dimensão de produtos. Uma linha por produto único."
+    columns:
+      - name: product_id
+        description: "A chave primária da tabela. Identificador único de um produto."
+        tests:
+          - unique
+          - not_null
+      
+      - name: product_category_name_english
+        description: "A categoria do produto, traduzida para o inglês."
+
+  - name: fct_order_items
+    description: "Tabela fato com granularidade de item de pedido. Uma linha para cada produto dentro de um pedido."
+    columns:
+      - name: order_id
+        description: "Chave estrangeira para a tabela de fatos de pedidos (fct_orders)."
+        tests:
+          - relationships:
+              to: ref('fct_orders')
+              field: order_id
+
+      - name: product_id
+        description: "Chave estrangeira para a dimensão de produtos (dim_products)."
+        tests:
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      
+      - name: item_price
+        description: "O preço do item individual."
+
+  - name: dim_sellers
+    description: "Tabela de dimensão de vendedores. Uma linha por vendedor."
+    columns:
+      - name: seller_id
+        description: "A chave primária da tabela, identificador único de um vendedor."
         tests:
           - unique
           - not_null
