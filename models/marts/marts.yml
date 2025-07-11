@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Tabela fato com todos os pedidos da Olist. Uma linha por pedido."
+    columns:
+      - name: order_id
+        description: "A chave primária da tabela."
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_unique_id # MUDAMOS O TESTE PARA ESTA COLUNA
+        description: "A chave estrangeira para a dimensão de clientes."
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_unique_id # AGORA SIM: testando unique_id com unique_id
+
+  - name: dim_customers
+    description: "Tabela de dimensão de clientes, com uma linha por cliente único."
+    columns:
+      - name: customer_unique_id
+        description: "A chave primária da tabela."
+        tests:
+          - unique
+          - not_null
