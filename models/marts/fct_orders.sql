@@ -18,7 +18,7 @@ final as (
     select
         customers.customer_unique_id, 
         orders.order_id,
-        orders.purchase_timestamp,
+        orders.purchase_timestamp::date as purchase_date,
         orders.approved_at_timestamp,
         orders.order_status,
         orders.delivered_to_carrier_timestamp, -- Data de envio para a transportadora
