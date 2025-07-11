@@ -75,3 +75,12 @@ models:
       
       - name: item_price
         description: "O preço do item individual."
+
+  - name: dim_sellers
+    description: "Tabela de dimensão de vendedores. Uma linha por vendedor."
+    columns:
+      - name: seller_id
+        description: "A chave primária da tabela, identificador único de um vendedor."
+        tests:
+          - unique
+          - not_null
