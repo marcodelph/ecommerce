@@ -8,6 +8,7 @@ select
     -- Chaves
     items.order_id,
     items.product_id,
+    items.seller_id, 
     orders.customer_unique_id,
 
     -- Detalhes do Item
