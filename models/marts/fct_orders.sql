@@ -21,6 +21,9 @@ final as (
         orders.purchase_timestamp,
         orders.approved_at_timestamp,
         orders.order_status,
+        orders.delivered_to_carrier_timestamp, -- Data de envio para a transportadora
+        orders.delivered_to_customer_timestamp, -- Data de entrega ao cliente
+        orders.estimated_delivery_timestamp,  -- Data estimada de entrega
         order_items.total_item_price,
         order_items.total_freight_value,
         (order_items.total_item_price + order_items.total_freight_value) as total_order_value
