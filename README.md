@@ -20,16 +20,16 @@ A solução foi construída seguindo a arquitetura **Medallion**, garantindo gov
 
 ```mermaid
 graph LR
-    A[Fonte: CSVs] --> B(Load: Snowflake Bronze);
-    B -- dbt build --> C(Transform: Silver);
-    C -- dbt build --> D(Model: Gold);
-    D --> E[Visualize: Power BI];
+    A["Fonte: CSVs"] --> B("Load: Snowflake Bronze");
+    B -- dbt build --> C("Transform: Silver");
+    C -- dbt build --> D("Model: Gold");
+    D --> E["Visualize: Power BI"];
 
-    style A fill:#F9F,stroke:#333,stroke-width:2px
-    style B fill:#29B5E8,stroke:#333,stroke-width:2px
-    style C fill:#FF694B,stroke:#333,stroke-width:2px
-    style D fill:#FF694B,stroke:#333,stroke-width:2px
-    style E fill:#F2C811,stroke:#333,stroke-width:2px
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#add8e6,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#ff7f50,stroke:#333,stroke-width:2px,color:#000
+    style D fill:#ff7f50,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#ffffb3,stroke:#333,stroke-width:2px,color:#000
 ```
 * **Bronze (RAW):** Cópia fiel dos dados brutos, garantindo um backup imutável da fonte.
 * **Silver (Staging):** Os dados são limpos, padronizados, com tipos de dados corrigidos e renomeação de colunas.
