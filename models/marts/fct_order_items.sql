@@ -20,7 +20,7 @@ select
     products.product_category_name_english,
 
     -- Detalhes do Pedido (da fct_orders)
-    orders.purchase_timestamp,
+    orders.purchase_date,
     orders.order_status
 
 from
