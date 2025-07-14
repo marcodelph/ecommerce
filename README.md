@@ -19,12 +19,17 @@ Este repositório serve como um portfólio prático, demonstrando competências 
 A solução foi construída seguindo a arquitetura **Medallion**, garantindo governança e qualidade dos dados em cada etapa do pipeline.
 
 ```mermaid
-graph TD
-    A[Arquivos CSV] --> B[Snowflake: Camada Bronze];
-    B --> C{dbt: Transformação};
-    C --> D[Snowflake: Camada Silver];
-    D --> E[Snowflake: Camada Gold];
-    E --> F[Power BI];
+graph LR
+    A[Fonte: CSVs] --> B(Load: Snowflake Bronze);
+    B -- dbt build --> C(Transform: Silver);
+    C -- dbt build --> D(Model: Gold);
+    D --> E[Visualize: Power BI];
+
+    style A fill:#F9F,stroke:#333,stroke-width:2px
+    style B fill:#29B5E8,stroke:#333,stroke-width:2px
+    style C fill:#FF694B,stroke:#333,stroke-width:2px
+    style D fill:#FF694B,stroke:#333,stroke-width:2px
+    style E fill:#F2C811,stroke:#333,stroke-width:2px
 ```
 * **Bronze (RAW):** Cópia fiel dos dados brutos, garantindo um backup imutável da fonte.
 * **Silver (Staging):** Os dados são limpos, padronizados, com tipos de dados corrigidos e renomeação de colunas.
