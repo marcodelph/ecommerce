@@ -1,4 +1,4 @@
--- models/marts/fct_order_items.sql
+-- models/marts/fct_order_items.sql (Versão Final e Resiliente)
 
 {{
     config(
@@ -7,8 +7,8 @@
 }}
 
 select
-    -- Chaves
-    items.order_id,
+    -- Chaves (garantindo a integridade a partir de stg_orders)
+    ord.order_id,
     items.product_id,
     items.seller_id,
     cust.customer_unique_id,
@@ -23,8 +23,10 @@ select
     ord.order_status
 
 from
-    {{ ref('stg_order_items') }} as items
-left join {{ ref('stg_orders') }} as ord
-    on items.order_id = ord.order_id
+    -- COMEÇAMOS PELA stg_orders, nossa fonte da verdade para pedidos válidos
+    {{ ref('stg_orders') }} as ord
+-- USAMOS INNER JOIN para garantir que só consideramos itens de pedidos que realmente existem
+inner join {{ ref('stg_order_items') }} as items
+    on ord.order_id = items.order_id
 left join {{ ref('stg_customers') }} as cust
     on ord.customer_id = cust.customer_id
