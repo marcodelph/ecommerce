@@ -23,9 +23,7 @@ select
     ord.order_status
 
 from
-    -- COMEÇAMOS PELA stg_orders, nossa fonte da verdade para pedidos válidos
     {{ ref('stg_orders') }} as ord
--- USAMOS INNER JOIN para garantir que só consideramos itens de pedidos que realmente existem
 inner join {{ ref('stg_order_items') }} as items
     on ord.order_id = items.order_id
 left join {{ ref('stg_customers') }} as cust
