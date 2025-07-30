@@ -44,4 +44,53 @@ secrets.toml
 target/
 dbt_packages/
 logs/
-# end dbt Cloud content
+include/dbt/profiles.yml
+
+# Ambientes Virtuais do Python
+venv/
+.venv/
+env/
+.env/
+*_env/
+
+# Arquivos de cache e bytecode do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos gerados pelo dbt
+dbt_packages/
+logs/
+target/
+
+# Arquivos de configuração do Jupyter Notebook
+.ipynb_checkpoints
+
+# Arquivos de configuração de IDEs e Editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de segredos e credenciais
+*.env
+.env.*
+credentials.yml
+profiles.yml # Usado para perfis locais do dbt
+secrets.toml
+.streamlit/secrets.toml
+
+# Ignorar arquivos de dados brutos
+/data/*.csv
+# Default .gitignore content added by dbt Cloud# you shouldn't commit these into source control
+# these are the default directory names, adjust/add to fit your needs
+target/
+dbt_packages/
+logs/
+include/dbt/profiles.yml
+
