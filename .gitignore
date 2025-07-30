@@ -93,4 +93,6 @@ target/
 dbt_packages/
 logs/
 include/dbt/profiles.yml
+include/data/*.csv
+
 
