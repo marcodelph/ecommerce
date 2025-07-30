@@ -2,13 +2,16 @@ version: 2
 
 models:
   - name: fct_orders
-    description: "Tabela fato principal, com uma linha por pedido. Contém todas as métricas de valor do pedido e as chaves para as dimensões."
+    description: "..."
     columns:
       - name: order_id
-        description: "A chave primária da tabela. Identificador único de um pedido."
+        description: "..."
         tests:
           - unique
           - not_null
+          - relationships:         # <<< ADIÇÃO AQUI
+              to: ref('stg_orders')
+              field: order_id
 
       - name: customer_unique_id
         description: "A chave estrangeira para a dimensão de clientes (dim_customers)."
@@ -60,10 +63,10 @@ models:
     description: "Tabela fato com granularidade de item de pedido. Uma linha para cada produto dentro de um pedido."
     columns:
       - name: order_id
-        description: "Chave estrangeira para a tabela de fatos de pedidos (fct_orders)."
+        description: "Chave estrangeira para a tabela de staging de pedidos (stg_orders)."
         tests:
           - relationships:
-              to: ref('fct_orders')
+              to: ref('stg_orders')
               field: order_id
 
       - name: product_id
