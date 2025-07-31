@@ -1,79 +1,112 @@
-# Projeto de Engenharia de Dados: Pipeline de Vendas Olist
+Projeto de Engenharia de Dados: Pipeline de Vendas Olist Automatizado
+🎯 Visão Geral do Projeto
+Este projeto implementa um pipeline de dados ELT (Extract, Load, Transform) completo e automatizado, desde a ingestão de dados brutos em arquivos CSV até a criação de um dashboard analítico interativo. O objetivo foi aplicar as melhores práticas de engenharia de dados utilizando uma stack moderna, com Apache Airflow para orquestração, Snowflake como Data Warehouse, dbt para transformação e Power BI para visualização.
 
-![Status: Concluído](https://img.shields.io/badge/status-concluído-brightgreen)
+Este repositório serve como um portfólio prático, demonstrando competências em orquestração de pipelines, modelagem de dados (Arquitetura Medallion, Esquema Estrela), testes de qualidade e entrega de valor para o negócio.
 
-## 🎯 Visão Geral do Projeto
-Este projeto implementa um pipeline de dados completo (end-to-end), desde a ingestão de dados brutos em arquivos CSV até a criação de um dashboard analítico interativo no Power BI. O objetivo foi aplicar as melhores práticas de engenharia de dados utilizando uma stack moderna com Snowflake, dbt e Power BI, simulando um ambiente corporativo real com o dataset de e-commerce da Olist.
+🛠️ Ferramentas e Tecnologias
+Ferramenta
 
-Este repositório serve como um portfólio prático, demonstrando competências em modelagem de dados (Arquitetura Medallion, Esquema Estrela), transformação, testes de qualidade de dados e visualização de insights de negócio.
+Propósito
 
-## 🛠️ Ferramentas e Tecnologias
-| Ferramenta | Propósito |
-| :--- | :--- |
-| **Snowflake** | Cloud Data Warehouse para armazenamento e processamento dos dados. |
-| **dbt (Data Build Tool)** | Ferramenta de transformação (o 'T' do ELT), usada para modelar, testar e documentar os dados. |
-| **Power BI** | Ferramenta de Business Intelligence para visualização de dados e criação do dashboard. |
-| **Git & GitHub** | Sistema de versionamento de código e hospedagem do projeto. |
+Apache Airflow
 
-## 🏗️ Arquitetura da Solução
-A solução foi construída seguindo a arquitetura **Medallion**, garantindo governança e qualidade dos dados em cada etapa do pipeline.
+Orquestração do pipeline, agendando e automatizando a execução diária das tarefas.
 
-```mermaid
+Docker
+
+Containerização do ambiente de desenvolvimento do Airflow, garantindo reprodutibilidade.
+
+Snowflake
+
+Cloud Data Warehouse para armazenamento e processamento dos dados.
+
+dbt (Data Build Tool)
+
+Ferramenta para Transformação (T do ELT), Modelagem, Testes e Documentação de Dados.
+
+Power BI
+
+Ferramenta de Business Intelligence para criação do dashboard analítico interativo.
+
+Git & GitHub
+
+Sistema para versionamento de código e hospedagem do projeto.
+
+🏗️ Arquitetura da Solução
+A solução é orquestrada pelo Airflow e segue a arquitetura Medallion, garantindo governança e qualidade dos dados em cada etapa do pipeline.
+
 graph LR
-    A["Fonte: CSVs"] --> B("Load: Snowflake Bronze");
-    B -- dbt build --> C("Transform: Silver");
-    C -- dbt build --> D("Model: Gold");
-    D --> E["Visualize: Power BI"];
+    subgraph Airflow [Orquestração Diária com Airflow]
+        direction TB
+        T1(Task 1: Clean & Upload) --> T2(Task 2: Load to Bronze);
+        T2 --> T3(Task 3: dbt Build);
+    end
+
+    subgraph Snowflake [Cloud Data Platform]
+        direction LR
+        B("Bronze Layer");
+        C("Silver Layer");
+        D("Gold Layer");
+    end
+
+    A[Fonte: CSVs] --> T1;
+    T2 --> B;
+    T3 -- dbt Core --> C;
+    C -- dbt Core --> D;
+    D --> E[Visualize: Power BI];
 
     style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
     style B fill:#add8e6,stroke:#333,stroke-width:2px,color:#000
     style C fill:#ff7f50,stroke:#333,stroke-width:2px,color:#000
     style D fill:#ff7f50,stroke:#333,stroke-width:2px,color:#000
     style E fill:#ffffb3,stroke:#333,stroke-width:2px,color:#000
-```
-* **Bronze (RAW):** Cópia fiel dos dados brutos, garantindo um backup imutável da fonte.
-* **Silver (Staging):** Os dados são limpos, padronizados, com tipos de dados corrigidos e renomeação de colunas.
-* **Gold (Marts):** A camada final, onde os dados são agregados e modelados em um Esquema Estrela, com tabelas Fato e Dimensão otimizadas para análise.
 
-## 📊 Dashboard de Resultados
-O resultado de todo o pipeline é um dashboard com duas páginas que fornecem uma visão completa do negócio.
+Orquestração (Airflow): Uma DAG diária executa as tarefas de limpeza do Stage, upload dos dados, carga para a camada Bronze e disparo das transformações do dbt.
 
-*(Pode levar alguns segundos para o dashboard carregar completamente)*
+Bronze (RAW): Cópia fiel dos dados brutos, garantindo um backup imutável da fonte.
+
+Silver (Staging): Camada onde os dados são limpos, padronizados, deduplicados com ROW_NUMBER() e preparados para a modelagem.
+
+Gold (Marts): Camada analítica final, com os dados modelados em um Esquema Estrela (Star Schema), com tabelas Fato e Dimensão enriquecidas e prontas para o consumo.
+
+📊 Dashboard Interativo e Resultados
+🔗 Clique aqui para acessar o Dashboard Interativo
+(Pode levar alguns segundos para o dashboard carregar completamente)
 
 <a href="https://app.powerbi.com/view?r=eyJrIjoiNGRjY2ZjMmMtYWVkNS00NTllLTkzMjYtMGFhYjU1NTAxZDg3IiwidCI6ImRhMDk2NjZlLTMxM2QtNDM0NS04ZTQ0LTk5MzI0MjI0ZWZhNCJ9" target="_blank">
   <img src="https://img.shields.io/badge/Acessar_Dashboard_Interativo-593196?style=for-the-badge&logo=powerbi&logoColor=white" alt="Dashboard Interativo"/>
 </a>
 
-### Página 1: Análise Geral de Vendas
-![Dashboard de Vendas](images/p1_vendas.png)
+O resultado final é um dashboard de duas páginas que permite a exploração dinâmica dos dados.
 
-### Página 2: Análise de Produtos e Vendedores
-![Dashboard de Produtos](images/p2_vendedores.png)
+Página 1: Visão Geral Executiva
+Página 2: Análise de Produtos e Vendedores
+✨ Qualidade e Governança de Dados com dbt
+A confiabilidade do pipeline foi garantida através dos recursos nativos do dbt para testes e documentação, expondo e corrigindo problemas de qualidade nos dados de origem.
 
-## 📈 Linhagem de Dados (dbt)
-A documentação gerada pelo dbt (`dbt docs`) fornece um gráfico de linhagem de dados (DAG) que mostra visualmente como os modelos se conectam, desde as fontes brutas até as tabelas finais, garantindo total rastreabilidade e governança.
+Testes de Qualidade
+O projeto inclui um conjunto robusto de testes de dados para garantir a integridade, unicidade e lógica de negócio dos modelos finais, prevenindo que dados de baixa qualidade cheguem ao dashboard.
 
-<h4>Linhagem de Dados (DAG)</h4>
-<p>O gráfico de linhagem gerado pelo <code>dbt docs</code> mostra visualmente como os modelos se conectam, desde as fontes brutas até as tabelas finais, garantindo total rastreabilidade.</p>
+Linhagem de Dados (DAG)
+O gráfico de linhagem gerado pelo dbt docs mostra visualmente como os modelos se conectam, desde as fontes brutas até as tabelas finais, garantindo total rastreabilidade sobre o fluxo de dados.
+
 <table align="center">
-  <tr>
-    <td align="center"><b>Linhagem da Tabela Fato Principal</b></td>
-    <td align="center"><b>Linhagem da Dimensão de Clientes</b></td>
-  </tr>
-  <tr>
-    <td><img src="images/dag_fct.png" alt="DAG da fct_order_items" width="100%"></td>
-    <td><img src="images/dag_customers.png" alt="DAG da dim_customers" width="100%"></td>
-  </tr>
+<tr>
+<td align="center"><b>Linhagem da Tabela Fato Principal</b></td>
+<td align="center"><b>Linhagem da Dimensão de Clientes</b></td>
+</tr>
+<tr>
+<td><img src="images/dbt_lineage_fct.png" alt="DAG da fct_order_items" width="100%"></td>
+<td><img src="images/dbt_lineage_dim.png" alt="DAG da dim_customers" width="100%"></td>
+</tr>
 </table>
 
-#### Testes de Qualidade
-O projeto inclui um conjunto de testes de dados para garantir a integridade, unicidade e lógica de negócio dos modelos finais, validando a confiabilidade do pipeline.
+🚀 Próximos Passos
+Com a base de orquestração e transformação estabelecida, os próximos passos para evoluir o projeto são:
 
-![dbt Test Results](images/dbt_tests.png)
+Materialização Incremental: Alterar a materialização das tabelas Fato para incremental no dbt, otimizando os custos e o tempo de execução do pipeline diário.
 
-## 🚀 Próximos Passos (Fase 2)
-Como uma evolução deste projeto, os seguintes passos estão planejados:
-* **Automação e Orquestração:** Integrar o pipeline com o **Apache Airflow** para automatizar as execuções diárias.
-* **Ingestão de Dados via API:** Desenvolver um processo para complementar os dados existentes com informações de uma API externa.
-* **Análise de Cohort:** Implementar um visual de Análise de Cohort no Power BI para medir a retenção de clientes mês a mês.
-* **Materialização Incremental:** Alterar a materialização dos modelos da camada Gold para `incremental` para otimizar os custos e o tempo de execução em um ambiente de produção.
+Ingestão de Dados via API: Substituir a ingestão de arquivos CSV por uma extração diária de dados de uma API externa, tornando o pipeline mais dinâmico.
+
+Infraestrutura como Código (IaC): Utilizar Terraform para provisionar e gerenciar a infraestrutura do Snowflake (bancos de dados, roles, etc.) de forma automatizada.
