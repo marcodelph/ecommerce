@@ -1,37 +1,17 @@
-Projeto de Engenharia de Dados: Pipeline de Vendas Olist Automatizado
+Projeto de Engenharia de Dados: Pipeline de Vendas Olist
 🎯 Visão Geral do Projeto
 Este projeto implementa um pipeline de dados ELT (Extract, Load, Transform) completo e automatizado, desde a ingestão de dados brutos em arquivos CSV até a criação de um dashboard analítico interativo. O objetivo foi aplicar as melhores práticas de engenharia de dados utilizando uma stack moderna, com Apache Airflow para orquestração, Snowflake como Data Warehouse, dbt para transformação e Power BI para visualização.
 
 Este repositório serve como um portfólio prático, demonstrando competências em orquestração de pipelines, modelagem de dados (Arquitetura Medallion, Esquema Estrela), testes de qualidade e entrega de valor para o negócio.
 
 🛠️ Ferramentas e Tecnologias
-Ferramenta
-
-Propósito
-
-Apache Airflow
-
-Orquestração do pipeline, agendando e automatizando a execução diária das tarefas.
-
-Docker
-
-Containerização do ambiente de desenvolvimento do Airflow, garantindo reprodutibilidade.
-
-Snowflake
-
-Cloud Data Warehouse para armazenamento e processamento dos dados.
-
-dbt (Data Build Tool)
-
-Ferramenta para Transformação (T do ELT), Modelagem, Testes e Documentação de Dados.
-
-Power BI
-
-Ferramenta de Business Intelligence para criação do dashboard analítico interativo.
-
-Git & GitHub
-
-Sistema para versionamento de código e hospedagem do projeto.
+| Ferramenta | Propósito |
+| Apache Airflow | Orquestração do pipeline, agendando e automatizando a execução diária das tarefas. |
+| Docker | Containerização do ambiente de desenvolvimento do Airflow, garantindo reprodutibilidade. |
+| Snowflake | Cloud Data Warehouse para armazenamento e processamento dos dados. |
+| dbt (Data Build Tool) | Ferramenta para Transformação (T do ELT), Modelagem, Testes e Documentação de Dados. |
+| Power BI | Ferramenta de Business Intelligence para criação do dashboard analítico interativo. |
+| Git & GitHub | Sistema para versionamento de código e hospedagem do projeto. |
 
 🏗️ Arquitetura da Solução
 A solução é orquestrada pelo Airflow e segue a arquitetura Medallion, garantindo governança e qualidade dos dados em cada etapa do pipeline.
@@ -62,6 +42,7 @@ graph LR
     style D fill:#ff7f50,stroke:#333,stroke-width:2px,color:#000
     style E fill:#ffffb3,stroke:#333,stroke-width:2px,color:#000
 
+
 Orquestração (Airflow): Uma DAG diária executa as tarefas de limpeza do Stage, upload dos dados, carga para a camada Bronze e disparo das transformações do dbt.
 
 Bronze (RAW): Cópia fiel dos dados brutos, garantindo um backup imutável da fonte.
@@ -90,17 +71,6 @@ O projeto inclui um conjunto robusto de testes de dados para garantir a integrid
 
 Linhagem de Dados (DAG)
 O gráfico de linhagem gerado pelo dbt docs mostra visualmente como os modelos se conectam, desde as fontes brutas até as tabelas finais, garantindo total rastreabilidade sobre o fluxo de dados.
-
-<table align="center">
-<tr>
-<td align="center"><b>Linhagem da Tabela Fato Principal</b></td>
-<td align="center"><b>Linhagem da Dimensão de Clientes</b></td>
-</tr>
-<tr>
-<td><img src="images/dbt_lineage_fct.png" alt="DAG da fct_order_items" width="100%"></td>
-<td><img src="images/dbt_lineage_dim.png" alt="DAG da dim_customers" width="100%"></td>
-</tr>
-</table>
 
 🚀 Próximos Passos
 Com a base de orquestração e transformação estabelecida, os próximos passos para evoluir o projeto são:
