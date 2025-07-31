@@ -3,13 +3,12 @@
 with source as (
     select
         *,
-        -- Mesma lógica de ranking para as duplicatas de produto
-        row_number() over (partition by product_id) as rn
+        -- Adicionando o ORDER BY que faltava para a deduplicação funcionar
+        row_number() over (partition by product_id order by product_id) as rn
     from {{ source('olist_ecommerce', 'olist_products_dataset') }}
 )
 
 select
-    -- Selecionamos todas as colunas, exceto a de ranking
     product_id,
     product_category_name,
     product_name_lenght,
